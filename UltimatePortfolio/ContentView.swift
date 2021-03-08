@@ -11,7 +11,7 @@ struct ContentView: View {
     var body: some View {
         TabView {
 			HomeView()
-			.tabItem { Image(systemName: "house"); Text("Home")}
+			.tabItem { Image(systemName: "house"); Text("Homesies")}
 			
 			ProjectsView(showClosedProjects: false)
 			.tabItem { Image(systemName: "list.bullet"); Text("Open") }
