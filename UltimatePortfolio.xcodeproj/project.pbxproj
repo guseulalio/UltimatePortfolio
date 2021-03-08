@@ -11,6 +11,11 @@
 		9C382AFE25F4B31D002C9B93 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C382AFD25F4B31D002C9B93 /* ContentView.swift */; };
 		9C382B0025F4B324002C9B93 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C382AFF25F4B324002C9B93 /* Assets.xcassets */; };
 		9C382B0325F4B324002C9B93 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C382B0225F4B324002C9B93 /* Preview Assets.xcassets */; };
+		9C382B0D25F4B7CC002C9B93 /* Main.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C382B0B25F4B7CC002C9B93 /* Main.xcdatamodeld */; };
+		9C382B1025F4BFE5002C9B93 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C382B0F25F4BFE5002C9B93 /* DataController.swift */; };
+		9C382B1625F4CE1C002C9B93 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C382B1525F4CE1C002C9B93 /* CloudKit.framework */; };
+		9CFE7AB525F5AEEB001419A9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFE7AB425F5AEEB001419A9 /* HomeView.swift */; };
+		9CFE7AB925F5B093001419A9 /* ProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFE7AB825F5B093001419A9 /* ProjectsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +25,12 @@
 		9C382AFF25F4B324002C9B93 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C382B0225F4B324002C9B93 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9C382B0425F4B324002C9B93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9C382B0C25F4B7CC002C9B93 /* Main.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Main.xcdatamodel; sourceTree = "<group>"; };
+		9C382B0F25F4BFE5002C9B93 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		9C382B1225F4CDD4002C9B93 /* UltimatePortfolio.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UltimatePortfolio.entitlements; sourceTree = "<group>"; };
+		9C382B1525F4CE1C002C9B93 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		9CFE7AB425F5AEEB001419A9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		9CFE7AB825F5B093001419A9 /* ProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C382B1625F4CE1C002C9B93 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +50,7 @@
 			children = (
 				9C382AFA25F4B31D002C9B93 /* UltimatePortfolio */,
 				9C382AF925F4B31D002C9B93 /* Products */,
+				9C382B1425F4CE1C002C9B93 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -52,8 +65,13 @@
 		9C382AFA25F4B31D002C9B93 /* UltimatePortfolio */ = {
 			isa = PBXGroup;
 			children = (
+				9C382B1225F4CDD4002C9B93 /* UltimatePortfolio.entitlements */,
 				9C382AFB25F4B31D002C9B93 /* UltimatePortfolioApp.swift */,
 				9C382AFD25F4B31D002C9B93 /* ContentView.swift */,
+				9CFE7AB425F5AEEB001419A9 /* HomeView.swift */,
+				9CFE7AB825F5B093001419A9 /* ProjectsView.swift */,
+				9C382B0F25F4BFE5002C9B93 /* DataController.swift */,
+				9C382B0B25F4B7CC002C9B93 /* Main.xcdatamodeld */,
 				9C382AFF25F4B324002C9B93 /* Assets.xcassets */,
 				9C382B0425F4B324002C9B93 /* Info.plist */,
 				9C382B0125F4B324002C9B93 /* Preview Content */,
@@ -67,6 +85,14 @@
 				9C382B0225F4B324002C9B93 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9C382B1425F4CE1C002C9B93 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9C382B1525F4CE1C002C9B93 /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,7 +164,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CFE7AB925F5B093001419A9 /* ProjectsView.swift in Sources */,
+				9C382B0D25F4B7CC002C9B93 /* Main.xcdatamodeld in Sources */,
+				9C382B1025F4BFE5002C9B93 /* DataController.swift in Sources */,
 				9C382AFE25F4B31D002C9B93 /* ContentView.swift in Sources */,
+				9CFE7AB525F5AEEB001419A9 /* HomeView.swift in Sources */,
 				9C382AFC25F4B31D002C9B93 /* UltimatePortfolioApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -267,6 +297,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = UltimatePortfolio/UltimatePortfolio.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"UltimatePortfolio/Preview Content\"";
 				DEVELOPMENT_TEAM = 3B38BF3GR9;
@@ -289,6 +320,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = UltimatePortfolio/UltimatePortfolio.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"UltimatePortfolio/Preview Content\"";
 				DEVELOPMENT_TEAM = 3B38BF3GR9;
@@ -328,6 +360,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9C382B0B25F4B7CC002C9B93 /* Main.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9C382B0C25F4B7CC002C9B93 /* Main.xcdatamodel */,
+			);
+			currentVersion = 9C382B0C25F4B7CC002C9B93 /* Main.xcdatamodel */;
+			path = Main.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 9C382AF025F4B31D002C9B93 /* Project object */;
 }
