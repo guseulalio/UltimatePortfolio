@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ProjectsView: View {
+	static let openTag: String? = "Open"
+	static let closedTag: String? = "Closed"
 	let showClosedProjects: Bool
 	
 	let projects: FetchRequest<Project>
@@ -28,10 +30,10 @@ struct ProjectsView: View {
 			List {
 				ForEach(projects.wrappedValue)
 				{ project in
-					Section(header: Text(project.title ?? "")) {
-						ForEach(project.items?.allObjects as? [Item] ?? [])
+					Section(header: Text(project.projectTitle)) {
+						ForEach(project.projectItems)
 						{ item in
-							Text(item.title ?? "")
+							Text(item.itemTitle)
 						}
 					}
 				}
