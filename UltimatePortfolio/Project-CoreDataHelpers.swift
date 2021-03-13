@@ -17,8 +17,21 @@ extension Project
 	
 	var projectItems: [Item]
 	{
-		let itemsArray = items?.allObjects as? [Item] ?? []
-		return itemsArray.sorted(by: itemSortCriteria)
+		items?.allObjects as? [Item] ?? []
+	}
+	
+	var projectItemsDefaultSorted: [Item]
+	{ return projectItems.sorted(by: itemDefaultSortCriteria) }
+	
+	func itemDefaultSortCriteria(first: Item, second: Item) -> Bool
+	{
+		if !first.completed && second.completed { return true }
+		else if first.completed && !second.completed { return false }
+		
+		if first.priority > second.priority { return true }
+		else if first.priority < second.priority { return false }
+		
+		return first.itemCreationDate < second.itemCreationDate
 	}
 	
 	var completionAmount: Double
@@ -43,14 +56,13 @@ extension Project
 		return project
 	}
 	
-	func itemSortCriteria(first: Item, second: Item) -> Bool
+	func projectItems(using sortOrder: Item.SortOrder) -> [Item]
 	{
-		if !first.completed && second.completed { return true }
-		else if first.completed && !second.completed { return false }
-		
-		if first.priority > second.priority { return true }
-		else if first.priority < second.priority { return false }
-		
-		return first.itemCreationDate < second.itemCreationDate
+		switch sortOrder
+		{
+			case .title: return projectItems.sorted(by: \Item.itemTitle)
+			case .creationDate: return projectItems.sorted(by: \Item.itemCreationDate)
+			default: return projectItemsDefaultSorted
+		}
 	}
 }

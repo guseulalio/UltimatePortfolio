@@ -14,6 +14,9 @@ struct ProjectsView: View {
 	@EnvironmentObject var dataController: DataController
 	@Environment(\.managedObjectContext) var managedObjectContext
 	
+	@State private var showingSortOrder = false
+	@State private var sortOrder = Item.SortOrder.optimized
+	
 	let showClosedProjects: Bool
 	
 	let projects: FetchRequest<Project>
@@ -31,57 +34,82 @@ struct ProjectsView: View {
 	
     var body: some View {
         NavigationView {
-			List {
-				ForEach(projects.wrappedValue)
-				{ project in
-					Section(header: ProjectHeaderView(project: project)) {
-						ForEach(project.projectItems)
-						{ item in ItemRowView(item: item) }
-						.onDelete
-							{ offsets in
-								let allItems = project.projectItems
-								for offset in offsets
+			Group {
+				if projects.wrappedValue.isEmpty {
+					Text("There's nothing here right now")
+					.foregroundColor(.secondary)
+				} else {
+					List {
+						ForEach(projects.wrappedValue)
+						{ project in
+							Section(header: ProjectHeaderView(project: project)) {
+								ForEach(project.projectItems(using: sortOrder))
+									{ item in ItemRowView(project: project, item: item) }
+									.onDelete
+									{ offsets in
+										let allItems = project.projectItems(using: sortOrder)
+										for offset in offsets
+										{
+											let item = allItems[offset]
+											dataController.delete(item)
+										}
+										dataController.save()
+									}
+								
+								if !showClosedProjects
 								{
-									let item = allItems[offset]
-									dataController.delete(item)
+									Button {
+										withAnimation {
+											let item = Item(context: managedObjectContext)
+											item.project = project
+											item.creationDate = Date()
+											dataController.save()
+										}
+									} label: {
+										Label("Add New Item", systemImage: "plus")
+									}
 								}
-								dataController.save()
-							}
-						
-						if !showClosedProjects
-						{
-							Button {
-								withAnimation {
-									let item = Item(context: managedObjectContext)
-									item.project = project
-									item.creationDate = Date()
-									dataController.save()
-								}
-							} label: {
-								Label("Add New Item", systemImage: "plus")
 							}
 						}
 					}
+					.listStyle(InsetGroupedListStyle())
 				}
 			}
-			.listStyle(InsetGroupedListStyle())
 			.navigationTitle(showClosedProjects ? "Closed projects" : "Open projects")
 			.toolbar
 			{
-				if !showClosedProjects
+				ToolbarItem(placement: .navigationBarTrailing)
 				{
-					Button {
-						withAnimation {
-							let project = Project(context: managedObjectContext)
-							project.closed = false
-							project.creationDate = Date()
-							dataController.save()
+					if !showClosedProjects
+					{
+						Button {
+							withAnimation {
+								let project = Project(context: managedObjectContext)
+								project.closed = false
+								project.creationDate = Date()
+								dataController.save()
+							}
+						} label: {
+							Label("Add Project", systemImage: "plus")
 						}
-					} label: {
-						Label("Add Project", systemImage: "plus")
 					}
 				}
+				
+				ToolbarItem(placement: .navigationBarLeading)
+				{
+					Button { showingSortOrder.toggle() }
+					label: { Label("Sort", systemImage: "arrow.up.arrow.down")}
+				}
 			}
+			.actionSheet(isPresented: $showingSortOrder)
+			{
+				ActionSheet(title: Text("Sort items"), message: nil, buttons: [
+								.default(Text("Optimized")) { sortOrder = .optimized },
+								.default(Text("Creation Date")) { sortOrder = .creationDate },
+								.default(Text("Title")) { sortOrder = .title }])
+			}
+			
+			SelectSomethingView()
 		}
     }
 }
