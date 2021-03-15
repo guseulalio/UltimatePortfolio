@@ -55,6 +55,13 @@ struct EditProjectView: View {
 							color = item
 							update()
 						}
+						.accessibilityElement(children: .ignore)
+						.accessibilityAddTraits(
+							item == color
+							? [.isButton, .isSelected]
+							: .isButton
+						)
+						.accessibilityLabel(LocalizedStringKey(item))
 					}
 				}
 				.padding(.vertical)
@@ -72,7 +79,7 @@ struct EditProjectView: View {
 				.accentColor(.red)
 			}
 		}
-		.navigationTitle("Edit project")
+		.navigationTitle("Edit Project")
 		.onDisappear(perform: dataController.save)
 		.alert(isPresented: $showingDeleteConfirm)
 		{

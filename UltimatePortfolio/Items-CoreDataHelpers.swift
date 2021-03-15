@@ -11,7 +11,7 @@ extension Item
 {
 	enum SortOrder { case optimized, title, creationDate }
 	
-	var itemTitle: String { title ?? "New Item" }
+	var itemTitle: String { title ?? NSLocalizedString("New Item", comment: "New item's title") }
 	var itemDetail: String { detail ?? "" }
 	var itemCreationDate: Date { creationDate ?? Date() }
 	

@@ -15,7 +15,7 @@ struct ContentView: View {
 		{
 			HomeView()
 			.tag(HomeView.tag)
-			.tabItem { Image(systemName: "house"); Text("Homesies")}
+			.tabItem { Image(systemName: "house"); Text("Home")}
 			
 			ProjectsView(showClosedProjects: false)
 			.tag(ProjectsView.openTag)
