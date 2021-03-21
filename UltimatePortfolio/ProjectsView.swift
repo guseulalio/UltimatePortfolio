@@ -39,71 +39,14 @@ struct ProjectsView: View {
 					Text("There's nothing here right now")
 					.foregroundColor(.secondary)
 				} else {
-					List {
-						ForEach(projects.wrappedValue)
-						{ project in
-							Section(header: ProjectHeaderView(project: project)) {
-								ForEach(project.projectItems(using: sortOrder))
-									{ item in ItemRowView(project: project, item: item) }
-									.onDelete
-									{ offsets in
-										let allItems = project.projectItems(using: sortOrder)
-										for offset in offsets
-										{
-											let item = allItems[offset]
-											dataController.delete(item)
-										}
-										dataController.save()
-									}
-								
-								if !showClosedProjects
-								{
-									Button {
-										withAnimation {
-											let item = Item(context: managedObjectContext)
-											item.project = project
-											item.creationDate = Date()
-											dataController.save()
-										}
-									} label: {
-										Label("Add New Item", systemImage: "plus")
-									}
-								}
-							}
-						}
-					}
-					.listStyle(InsetGroupedListStyle())
+					projectsList
 				}
 			}
 			.navigationTitle(showClosedProjects ? "Closed Projects" : "Open Projects")
 			.toolbar
 			{
-				ToolbarItem(placement: .navigationBarTrailing)
-				{
-					if !showClosedProjects
-					{
-						Button {
-							withAnimation {
-								let project = Project(context: managedObjectContext)
-								project.closed = false
-								project.creationDate = Date()
-								dataController.save()
-							}
-						} label: {
-							if UIAccessibility.isVoiceOverRunning {
-								Text("Add Project")
-							} else {
-								Label("Add Project", systemImage: "plus")
-							}
-						}
-					}
-				}
-				
-				ToolbarItem(placement: .navigationBarLeading)
-				{
-					Button { showingSortOrder.toggle() }
-					label: { Label("Sort", systemImage: "arrow.up.arrow.down")}
-				}
+				addProjectToolbarItem
+				sortOrderToolbarItem
 			}
 			.actionSheet(isPresented: $showingSortOrder)
 			{
@@ -116,6 +59,82 @@ struct ProjectsView: View {
 			SelectSomethingView()
 		}
     }
+	
+	var projectsList: some View {
+		List {
+			ForEach(projects.wrappedValue)
+			{ project in
+				Section(header: ProjectHeaderView(project: project)) {
+					ForEach(project.projectItems(using: sortOrder))
+						{ item in ItemRowView(project: project, item: item) }
+						.onDelete { offsets in delete(offsets, from: project) }
+					
+					if !showClosedProjects
+					{
+						Button { addItem(to: project) }
+							label: { Label("Add New Item", systemImage: "plus") }
+					}
+				}
+			}
+		}
+		.listStyle(InsetGroupedListStyle())
+	}
+	
+	var addProjectToolbarItem: some ToolbarContent {
+		ToolbarItem(placement: .navigationBarTrailing)
+		{
+			if !showClosedProjects
+			{
+				Button(action: addProject)
+				{
+					if UIAccessibility.isVoiceOverRunning {
+						Text("Add Project")
+					} else {
+						Label("Add Project", systemImage: "plus")
+					}
+				}
+			}
+		}
+	}
+	
+	var sortOrderToolbarItem: some ToolbarContent {
+		ToolbarItem(placement: .navigationBarLeading)
+		{
+			Button { showingSortOrder.toggle() }
+				label: { Label("Sort", systemImage: "arrow.up.arrow.down")}
+		}
+	}
+	
+	func addProject()
+	{
+		withAnimation {
+			let project = Project(context: managedObjectContext)
+			project.closed = false
+			project.creationDate = Date()
+			dataController.save()
+		}
+	}
+	
+	func addItem(to project: Project)
+	{
+		withAnimation {
+			let item = Item(context: managedObjectContext)
+			item.project = project
+			item.creationDate = Date()
+			dataController.save()
+		}
+	}
+	
+	func delete(_ offsets: IndexSet, from project: Project)
+	{
+		let allItems = project.projectItems(using: sortOrder)
+		for offset in offsets
+		{
+			let item = allItems[offset]
+			dataController.delete(item)
+		}
+		dataController.save()
+	}
 }
 
 struct ProjectsView_Previews: PreviewProvider {

@@ -5,7 +5,7 @@
 //  Created by Gustavo E M Cabral on 8/3/21.
 //
 
-import Foundation
+import SwiftUI
 
 extension Project
 {
@@ -41,6 +41,10 @@ extension Project
 		
 		let completedItems = originalItems.filter(\.completed)
 		return Double(completedItems.count) / Double(originalItems.count)
+	}
+	
+	var label: LocalizedStringKey {
+		LocalizedStringKey("\(projectTitle), \(projectItems.count) items, \(completionAmount * 100, specifier: "%g")% complete")
 	}
 	
 	static var example: Project
