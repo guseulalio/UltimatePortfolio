@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// An Award represents an achievement reached by the user.
 struct Award
 : Decodable, Identifiable
 {

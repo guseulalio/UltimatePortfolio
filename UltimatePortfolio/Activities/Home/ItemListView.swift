@@ -21,7 +21,7 @@ struct ItemListView: View {
 				.padding(.top)
 			
 			ForEach(items)
-			{item in
+			{ item in
 				NavigationLink(destination: EditItemView(item: item)) {
 					HStack(spacing: 20) {
 						Circle()

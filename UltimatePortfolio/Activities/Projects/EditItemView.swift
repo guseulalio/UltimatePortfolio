@@ -54,6 +54,8 @@ struct EditItemView: View {
 		.onDisappear(perform: dataController.save)
     }
 	
+	/// Updates the item and respective project objects, making sure the
+	/// changes are signalled.
 	func update()
 	{
 		item.project?.objectWillChange.send()

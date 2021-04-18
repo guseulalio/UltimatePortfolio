@@ -63,6 +63,7 @@ struct EditProjectView: View {
 		}
     }
 	
+	/// Updates project object.
 	func update()
 	{
 		project.title = title
@@ -70,12 +71,16 @@ struct EditProjectView: View {
 		project.color = color
 	}
 	
+	/// Deletes project from DB.
 	func delete()
 	{
 		dataController.delete(project)
 		presentationMode.wrappedValue.dismiss()
 	}
 	
+	/// Returns a button representing a color.
+	/// - Parameter item: The name of the color.
+	/// - Returns: The colored button.
 	func colorButton(for item: String) -> some View
 	{
 		ZStack {

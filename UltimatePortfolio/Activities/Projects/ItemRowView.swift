@@ -11,6 +11,7 @@ struct ItemRowView: View {
 	@ObservedObject var project: Project
 	@ObservedObject var item: Item
 	
+	/// Returns an icon representing the status of the item.
 	var icon: some View {
 		if item.completed {
 			return Image(systemName: "checkmark.circle")
@@ -24,6 +25,7 @@ struct ItemRowView: View {
 		}
 	}
 	
+	/// Returns a text describing the status of the item.
 	var label: Text {
 		if item.completed
 			{ return Text("\(item.itemTitle), completed") }

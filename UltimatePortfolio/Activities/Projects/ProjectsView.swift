@@ -80,6 +80,7 @@ struct ProjectsView: View {
 		.listStyle(InsetGroupedListStyle())
 	}
 	
+	/// Button to add new project.
 	var addProjectToolbarItem: some ToolbarContent {
 		ToolbarItem(placement: .navigationBarTrailing)
 		{
@@ -87,6 +88,12 @@ struct ProjectsView: View {
 			{
 				Button(action: addProject)
 				{
+					// In iOS 14.3, VoiceOver has a glitch that reads the label
+					// "Add Project" as "Add" no matter what accessibility label
+					// we give this toolbar button when using a Label.
+					// As a result, when VoiceOver is running, we use a text view
+					// for the button instead, forging a correct reading without
+					// losing the original layout.
 					if UIAccessibility.isVoiceOverRunning {
 						Text("Add Project")
 					} else {
@@ -97,6 +104,7 @@ struct ProjectsView: View {
 		}
 	}
 	
+	/// Button to sort list of projects.
 	var sortOrderToolbarItem: some ToolbarContent {
 		ToolbarItem(placement: .navigationBarLeading)
 		{
@@ -105,6 +113,7 @@ struct ProjectsView: View {
 		}
 	}
 	
+	/// Creates a new empty project in the DB.
 	func addProject()
 	{
 		withAnimation {
@@ -115,6 +124,8 @@ struct ProjectsView: View {
 		}
 	}
 	
+	/// Adds a new empty item to a project.
+	/// - Parameter project: Project the item is going to be added to.
 	func addItem(to project: Project)
 	{
 		withAnimation {
@@ -125,6 +136,10 @@ struct ProjectsView: View {
 		}
 	}
 	
+	/// Delete a number of items from a project.
+	/// - Parameters:
+	///   - offsets: Items to be removed.
+	///   - project: Project whose items will be removed.
 	func delete(_ offsets: IndexSet, from project: Project)
 	{
 		let allItems = project.projectItems(using: sortOrder)

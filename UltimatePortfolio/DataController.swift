@@ -8,21 +8,33 @@
 import CoreData
 import SwiftUI
 
+/// An environment responsible for managing our CoreData stack, including
+/// handling saving, counting fetch requests, tracking awards, and dealing
+/// with sample data.
 class DataController
 : ObservableObject
 {
+	/// The lone CloudKit container used to store all our data.
 	let container: NSPersistentCloudKitContainer
 	
+	/// Initializes a data controller either in-memory for temporary use (such
+	/// as testing and previewing), or on permanent storage (for use in regular
+	/// app runs).
+	///
+	/// Defaults to permanent storage.
+	/// - Parameter inMemory: Whether to store this data in temporary memory or not.
 	init(inMemory: Bool = false)
 	{
 		container = NSPersistentCloudKitContainer(name: "Main")
 		
+		// For testing and previewing purposes, we create a temporary,
+		// in-memory database by writing to dev/null so our data is
+		// destroyed after the app finishes running.
 		if inMemory
 		{ container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null") }
 		
 		container.loadPersistentStores
-		{ storeDescription,
-		  error in
+		{ _, error in
 			if let error = error
 			{ fatalError("Fatal error loading store: \(error.localizedDescription)") }
 		}
@@ -37,6 +49,8 @@ class DataController
 		return dataController
 	}()
 	
+	/// Creates example projects and items to make manual testing easier.
+	/// - Throws: An `NSError` sent from calling `save()` on the `NSManagedObjectContext`.
 	func createSampleData()
 	throws
 	{
@@ -53,7 +67,7 @@ class DataController
 			for j in 1...10
 			{
 				let item = Item(context: viewContext)
-				item.title = "Item \(j)"
+				item.title = "Item \(j) of P\(i)"
 				item.creationDate = Date()
 				item.completed = Bool.random()
 				item.project = project
@@ -64,15 +78,21 @@ class DataController
 		try viewContext.save()
 	}
 	
+	/// Saves our Core Data context if (and only if) there are changes.
+	/// This silently ignores any errors caused by saving, but this
+	/// should be fine because our attributes are optional.
 	func save()
 	{
 		if container.viewContext.hasChanges
 		{ try? container.viewContext.save() }
 	}
 	
+	/// Deletes specific object from data base.
+	/// - Parameter object: object to be deleted. Must be `NSManagedObject`
 	func delete(_ object: NSManagedObject)
 	{ container.viewContext.delete(object) }
 	
+	/// Deletes all data.
 	func deleteAll()
 	{
 		let fetchRequest1: NSFetchRequest<NSFetchRequestResult> = Item.fetchRequest()
@@ -84,24 +104,32 @@ class DataController
 		_ = try? container.viewContext.execute(batchDeleteRequest2)
 	}
 	
+	/// Counts the amount of objects returned in a fetch request.
+	/// - Parameter fetchRequest: `NSFetchRequest` object to be counted.
+	/// - Returns: Number of objects returned by the fetch request. Returns zero if unable to count.
 	func count<T>(for fetchRequest: NSFetchRequest<T>) -> Int
 	{ (try? container.viewContext.count(for: fetchRequest)) ?? 0 }
 	
+	/// Defines if a given award has been earned.
+	/// - Parameter award: The award to be verified.
+	/// - Returns: `true` if award conditions have been met. `false` otherwise.
 	func hasEarned(award: Award) -> Bool
 	{
 		switch award.criterion
 		{
+			// TRUE if they added a certain number of items
 			case "items":
 				let fetchRequest: NSFetchRequest<Item> = NSFetchRequest(entityName: "Item")
 				let awardCount = count(for: fetchRequest)
 				return awardCount >= award.value
+			// TRUE if they completed a certain number of items
 			case "complete":
 				let fetchRequest: NSFetchRequest<Item> = NSFetchRequest(entityName: "Item")
 				fetchRequest.predicate = NSPredicate(format: "completed = true")
 				let awardCount = count(for: fetchRequest)
 				return awardCount >= award.value
+			// An unknown criterion; this should never be allowed.
 			default:
-				//fatalError("Unknown award criterion: \(award.criterion)")
 				return false
 		}
 	}

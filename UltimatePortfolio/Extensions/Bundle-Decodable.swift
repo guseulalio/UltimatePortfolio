@@ -9,6 +9,13 @@ import Foundation
 
 extension Bundle
 {
+	/// Decodes an object from a JSON file
+	/// - Parameters:
+	///   - type: Type of object to be that will be returned.
+	///   - file: path of JSON file in `String` format. Contents from JSON file must match the returned object's structure.
+	///   - dateDecodingStrategy: Strategy for decoding the date strings.
+	///   - keyDecodingStrategy: Strategy for interpreting keys.
+	/// - Returns: Object of type `type` decoded from the JSON file.
 	func decode<T: Decodable>(
 		_ type: T.Type,
 		from file: String,

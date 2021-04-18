@@ -21,8 +21,14 @@ struct HomeView: View
 	
 	init()
 	{
+		// Construct a fetch request to show the 10 highest-priority,
+		// incomplete items from open projects.
 		let request: NSFetchRequest<Item> = Item.fetchRequest()
-		request.predicate = NSPredicate(format: "completed = false")
+		
+		let incompletePredicate = NSPredicate(format: "completed = false")
+		let openPredicate = NSPredicate(format: "project.closed = false")
+		let compountPredicate = NSCompoundPredicate(type: .and, subpredicates: [incompletePredicate, openPredicate])
+		request.predicate = compountPredicate
 		request.sortDescriptors = [ NSSortDescriptor(keyPath: \Item.priority, ascending: false) ]
 		request.fetchLimit = 10
 		items = FetchRequest(fetchRequest: request)
@@ -49,6 +55,13 @@ struct HomeView: View
 			}
 			.background(Color.systemGroupedBackground.ignoresSafeArea())
 			.navigationTitle("Home (Title)")
+			.toolbar {
+				Button("Add data")
+				{
+					dataController.deleteAll()
+					try? dataController.createSampleData()
+				}
+			}
 		}
     }
 }

@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+/// View that is shown on landscape mode to remind the use that s/he can select
+/// from the menu.
 struct SelectSomethingView: View {
     var body: some View {
         Text("Please select something from the menu to begin.")
