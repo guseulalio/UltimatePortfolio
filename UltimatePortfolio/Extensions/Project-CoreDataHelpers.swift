@@ -49,7 +49,7 @@ extension Project
 	
 	static var example: Project
 	{
-		let controller = DataController(inMemory: true)
+		let controller = DataController.preview
 		let dbContext = controller.container.viewContext
 		
 		let project = Project(context: dbContext)

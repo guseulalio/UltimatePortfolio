@@ -17,7 +17,7 @@ extension Item
 	
 	static var example: Item
 	{
-		let controller = DataController(inMemory: true)
+		let controller = DataController.preview
 		let dbContext = controller.container.viewContext
 		
 		let item = Item(context: dbContext)
