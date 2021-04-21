@@ -39,12 +39,12 @@ class ExtensionTests
 		XCTAssertEqual(sortedByNumber, [
 			MyType(number: 1, text: "Bobcat"), MyType(number: 2, text: "Quokka"),
 			MyType(number: 3, text: "Anteater"), MyType(number: 5, text: "Aardvark"),
-			MyType(number: 16, text: "Zebra"),
+			MyType(number: 16, text: "Zebra")
 		])
 		XCTAssertEqual(sortedByText, [
 			MyType(number: 5, text: "Aardvark"), MyType(number: 3, text: "Anteater"),
 			MyType(number: 1, text: "Bobcat"), MyType(number: 2, text: "Quokka"),
-			MyType(number: 16, text: "Zebra"),
+			MyType(number: 16, text: "Zebra")
 		])
 	}
 	

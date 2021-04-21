@@ -5,7 +5,6 @@
 //  Created by Gustavo E M Cabral on 19/4/21.
 //
 
-//import CoreData
 import XCTest
 @testable import UltimatePortfolio
 

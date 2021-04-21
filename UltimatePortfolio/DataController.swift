@@ -75,18 +75,18 @@ class DataController
 	{
 		let viewContext = container.viewContext
 		
-		for i in 1...5
+		for prIndex in 1...5
 		{
 			let project = Project(context: viewContext)
-			project.title = "Project \(i)"
+			project.title = "Project \(prIndex)"
 			project.items = []
 			project.creationDate = Date()
 			project.closed = Bool.random()
 			
-			for j in 1...10
+			for itIndex in 1...10
 			{
 				let item = Item(context: viewContext)
-				item.title = "Item \(j) of P\(i)"
+				item.title = "Item \(itIndex) of P\(prIndex)"
 				item.creationDate = Date()
 				item.completed = Bool.random()
 				item.project = project
@@ -136,20 +136,20 @@ class DataController
 	{
 		switch award.criterion
 		{
-			// TRUE if they added a certain number of items
-			case "items":
-				let fetchRequest: NSFetchRequest<Item> = NSFetchRequest(entityName: "Item")
-				let awardCount = count(for: fetchRequest)
-				return awardCount >= award.value
-			// TRUE if they completed a certain number of items
-			case "complete":
-				let fetchRequest: NSFetchRequest<Item> = NSFetchRequest(entityName: "Item")
-				fetchRequest.predicate = NSPredicate(format: "completed = true")
-				let awardCount = count(for: fetchRequest)
-				return awardCount >= award.value
-			// An unknown criterion; this should never be allowed.
-			default:
-				return false
+		// TRUE if they added a certain number of items
+		case "items":
+			let fetchRequest: NSFetchRequest<Item> = NSFetchRequest(entityName: "Item")
+			let awardCount = count(for: fetchRequest)
+			return awardCount >= award.value
+		// TRUE if they completed a certain number of items
+		case "complete":
+			let fetchRequest: NSFetchRequest<Item> = NSFetchRequest(entityName: "Item")
+			fetchRequest.predicate = NSPredicate(format: "completed = true")
+			let awardCount = count(for: fetchRequest)
+			return awardCount >= award.value
+		// An unknown criterion; this should never be allowed.
+		default:
+			return false
 		}
 	}
 }

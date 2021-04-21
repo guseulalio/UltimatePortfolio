@@ -9,7 +9,9 @@ import SwiftUI
 
 extension Project
 {
-	static let colors = ["Pink", "Purple", "Red", "Orange", "Gold", "Green", "Teal", "Light Blue", "Dark Blue", "Midnight", "Dark Gray", "Gray"]
+	static let colors = ["Pink", "Purple", "Red", "Orange",
+						 "Gold", "Green", "Teal", "Light Blue",
+						 "Dark Blue", "Midnight", "Dark Gray", "Gray"]
 	
 	var projectTitle: String { title ?? NSLocalizedString("New Project", comment: "New project's title") }
 	var projectDetail: String { detail ?? "" }
@@ -44,7 +46,7 @@ extension Project
 	}
 	
 	var label: LocalizedStringKey {
-		LocalizedStringKey("\(projectTitle), \(projectItems.count) items, \(completionAmount * 100, specifier: "%g")% complete")
+		"\(projectTitle), \(projectItems.count) items, \(completionAmount * 100, specifier: "%g")% complete"
 	}
 	
 	static var example: Project
@@ -64,9 +66,9 @@ extension Project
 	{
 		switch sortOrder
 		{
-			case .title: return projectItems.sorted(by: \Item.itemTitle)
-			case .creationDate: return projectItems.sorted(by: \Item.itemCreationDate)
-			default: return projectItemsDefaultSorted
+		case .title: return projectItems.sorted(by: \Item.itemTitle)
+		case .creationDate: return projectItems.sorted(by: \Item.itemCreationDate)
+		default: return projectItemsDefaultSorted
 		}
 	}
 }
